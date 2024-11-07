@@ -1,21 +1,24 @@
-<section class="grid full start bg-3 items-center">
+<section class="grid full start bg-2 items-center" (keydown)="checkKey($event)">
   <div class="start-app-name ff c1-3 r1 flex flex-center">
     <span class="start-app-txt">himnario adventista</span>
     <img src="./media/iasd_black.webp" alt="iasd-logo" class="start-app-logo" />
   </div>
   <div class="start-search grid full c1-3 r2 items-center">
     <input type="button" value="letra" class="fit ff start-control element pointer" #lyrics
-           data-selected="0" (click)="chooseMode(lyrics)" />
+           (click)="chooseMode(lyrics)" />
     <input type="button" value="música" class="fit ff start-control element pointer" #music
-           data-selected="0" (click)="chooseMode(music)" *ngIf="innerWidth > 1024"/>
+           (click)="chooseMode(music)" *ngIf="innerWidth > 1024"/>
     <input type="button" value="cantado" class="fit ff start-control element pointer selected" #choir
-           data-selected="1" (click)="chooseMode(choir)" />
-    <input type="number" placeholder="# # #" class="fit ff c1 r2 start-number start-control element" />
-    <input type="text" placeholder="Título ó Palabras" class="fit ff c1-3 r2 start-text start-control element" />
+           (click)="chooseMode(choir)" />
+    <input type="number" placeholder="# # #" class="fit ff c1 r2 start-number start-control element" #number
+           min="1" max="613" step="1" (wheel)="updateNumber($event)" (input)="numberSearch(number)" />
+    <input type="text" placeholder="Título ó Palabras" class="fit ff c1-3 r2 start-text start-control element" #text
+           (input)="textSearch(text)"/>
     <i class="pi pi-play-circle start-init start-control element c3 r2 pointer"
-       [ngClass]="{'c3': innerWidth > 1024, 'c2': innerWidth <= 1024}" (click)="initHymn()"></i>
-    <span class="start-options c1-3 r3 grid start-control element ff overflow-y" [ngClass]="{'empty': options.length === 0}">
-
+       [ngClass]="{'c3': innerWidth > 1024, 'c2': innerWidth <= 1024}" (click)="playBtn()"></i>
+    <span class="start-options c1-3 r3 grid start-control element ff overflow-y" #divOpts
+          [ngClass]="{'empty': options.length === 0}">
+      <div class="pointer" *ngFor="let opt of options" (click)="updateText($event.target)">{{ opt }}</div>
     </span>
   </div>
   <app-footer></app-footer>

@@ -67,6 +67,8 @@
   .start-text {
     width: 70%;
     margin-left: 20%;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    overflow-x: scroll;
   }
   .start-init { margin-right: 15%; }
   .start-options {
