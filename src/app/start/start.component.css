@@ -1,0 +1,77 @@
+.start {
+  grid-template-columns: 10% 1fr;
+  grid-template-rows: 18% 1fr 5%;
+  gap: 1rem 0;
+}
+.start-app-name {
+  font-size: 5rem;
+  text-transform: capitalize;
+  text-shadow: 2px 1px white;
+}
+.start-app-logo {
+  width: 5%;
+  height: 12%;
+  margin-left: 1rem;
+}
+.start-search {
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 12%) 76%;
+  gap: 1rem 0;
+}
+.start-control {
+  text-transform: uppercase;
+  text-shadow: 1px 1px white;
+  font-size: 1.8rem;
+  padding: 0.5rem 1rem;
+  width: 50%;
+}
+.start-number {
+  width: 25%;
+  justify-self: start;
+  margin-left: 10%;
+}
+.start-text,
+.start-options {
+  width: 80%;
+  justify-self: center;
+  margin-left: 10%;
+  grid-auto-rows: 1fr;
+  gap: 1.3rem 0;
+}
+.start-init {
+  width: fit-content !important;
+  height: fit-content !important;
+  padding: 0.3rem !important;
+  justify-self: end;
+  margin-right: 20%;
+  margin-bottom: 0.3rem;
+}
+.start-options {
+  max-height: 400px;
+  align-self: start;
+  font-size: 1.2rem;
+}
+@media screen and (max-width: 1024px) { /***** SMALL SCREEN VIEW *****/
+  .start-app-name { font-size: 2.2rem; }
+  .start-app-logo {
+    width: 15%;
+    margin-left: 0.4rem;
+  }
+  .c1-3 { grid-column: 1 / 3; }
+  .start-search { grid-template-columns: repeat(2, 1fr); }
+  .start-control {
+    font-size: 0.9rem;
+    width: 70%;
+  }
+  .start-number { width: 35%; }
+  .start-text {
+    width: 70%;
+    margin-left: 20%;
+  }
+  .start-init { margin-right: 15%; }
+  .start-options {
+    width: 90%;
+    margin-left: 0;
+    max-height: 330px;
+  }
+}

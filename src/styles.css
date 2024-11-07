@@ -1,0 +1,104 @@
+/* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+
+/***** GLOBAL *****/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+html, body { height: 100%; }
+
+/***** COMPONENTS *****/
+app-footer {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
+
+/***** CLASSES *****/
+.bg-1 { background: url("./assets/images/backgrounds/start/bg-1.webp") 50% 50% / 100% 100% no-repeat; }
+.bg-2 { background: url("./assets/images/backgrounds/start/bg-2.webp") 50% 50% / 100% 100% no-repeat; }
+.bg-3 { background: url("./assets/images/backgrounds/start/bg-3.webp") 50% 50% / 100% 100% no-repeat; }
+.bg-4 { background: url("./assets/images/backgrounds/start/bg-4.webp") 50% 50% / 100% 100% no-repeat; }
+@media screen and (max-width: 1024px) { /***** SMALL SCREEN VIEW *****/
+  .bg-1, .bg-2, .bg-3, .bg-4 { background-size: auto 100%; }
+}
+.pointer { cursor: pointer; }
+.element {
+  background-color: rgba(220, 220, 220, 0.7);
+  border-radius: 20px;
+  border: none;
+  outline: none;
+}
+.element:active { outline: none; }
+.element.pointer,
+.element.start-control,
+.element.start-options {
+  box-shadow: 5px 7px 4px 1px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+.selected,
+.start-init:active {
+  background-color: rgba(177, 177, 177, 0.85);
+  box-shadow: 2px 2px 3px rgba(0,0,0,0.5) !important;
+  transform: scale(0.98);
+}
+.overflow-y { overflow-y: scroll; }
+.empty {
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+/***** DISPLAY *****/
+.flex {
+  display: flex;
+  flex-flow: row wrap;
+}
+.grid { display: grid; }
+
+/***** SIZING *****/
+.full {
+  height: 100%;
+  width: 100%;
+}
+.fit {
+  width: fit-content;
+  height: fit-content;
+}
+
+/***** POSITIONING *****/
+.items-center {
+  justify-items: center;
+  align-items: center;
+}
+.content-center {
+  justify-content: center;
+  align-content: center;
+}
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+/***** GRID POS *****/
+.c1-3 { grid-column: 1 / 4; }
+.c1 { grid-column: 1; }
+.c2 { grid-column: 2; }
+.c3 { grid-column: 3; }
+.r1 { grid-row: 1; }
+.r2 { grid-row: 2; }
+.r3 { grid-row: 3; }
+.r4 { grid-row: 4; }
+.r5 { grid-row: 5; }
+
+
+/***** FONTS *****/
+.ff {
+  font-family: "varela", serif;
+  font-weight: bold;
+}
+@font-face {
+    font-family: "varela";
+    src: url("./assets/fonts/varela-reg.ttf") format("truetype");
+}
