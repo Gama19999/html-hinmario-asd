@@ -12,15 +12,20 @@ html, body { height: 100%; }
 
 /***** COMPONENTS *****/
 app-footer {
-  grid-column: 1 / -1;
-  grid-row: 3;
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
 
 /***** CLASSES *****/
-.bg-1 { background: url("./assets/images/backgrounds/start/bg-1.webp") 50% 50% / 100% 100% no-repeat; }
-.bg-2 { background: url("./assets/images/backgrounds/start/bg-2.webp") 50% 50% / 100% 100% no-repeat; }
-.bg-3 { background: url("./assets/images/backgrounds/start/bg-3.webp") 50% 50% / 100% 100% no-repeat; }
-.bg-4 { background: url("./assets/images/backgrounds/start/bg-4.webp") 50% 50% / 100% 100% no-repeat; }
+.bg-1 { background: url("assets/images/backgrounds/bg-1.webp") 50% 50% / 100% 100% no-repeat; }
+.bg-2 { background: url("assets/images/backgrounds/bg-2.webp") 50% 50% / 100% 100% no-repeat; }
+.bg-3 { background: url("assets/images/backgrounds/bg-3.webp") 50% 50% / 100% 100% no-repeat; }
+.bg-4 { background: url("assets/images/backgrounds/bg-4.webp") 50% 50% / 100% 100% no-repeat; }
 @media screen and (max-width: 1024px) { /***** SMALL SCREEN VIEW *****/
   .bg-1, .bg-2, .bg-3, .bg-4 { background-size: auto 100%; }
 }
@@ -39,7 +44,8 @@ app-footer {
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 .selected,
-.start-init:active {
+.start-init:active,
+.player-control:active {
   background-color: rgba(177, 177, 177, 0.85);
   box-shadow: 2px 2px 3px rgba(0,0,0,0.5) !important;
   transform: scale(0.98);

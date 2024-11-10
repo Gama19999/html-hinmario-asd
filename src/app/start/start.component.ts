@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SoundService } from '../services/sound.service';
-import { Dictionary } from '../models/dictionary.model';
+import { UtilityService } from '../services/utility.service';
 
 @Component({
   selector: 'app-start',
@@ -16,23 +16,24 @@ export class StartComponent implements AfterViewInit {
   @ViewChild('number') private number!: ElementRef;
   @ViewChild('text') private text!: ElementRef;
   @ViewChild('divOpts') private divOpts!: ElementRef;
-  private dictionary: Dictionary;
   protected readonly innerWidth = innerWidth;
   options: string[] = [];
 
-  constructor(private soundService: SoundService, private router: Router) {
-    this.dictionary = new Dictionary();
-  }
+  constructor(private soundService: SoundService, private utilityService: UtilityService, private router: Router) {}
 
   ngAfterViewInit() {
     this.number.nativeElement.focus();
+    document.addEventListener('keyup', (event: any) => this.checkKey(event));
   }
 
   checkKey(event: any) {
-    if ((<KeyboardEvent> event).key === 'Escape') {
-      this.number.nativeElement.value = '';
-      this.text.nativeElement.value = '';
-      this.options = [];
+    switch ((<KeyboardEvent> event).code) {
+      case 'Escape':
+        this.number.nativeElement.value = '';
+        this.text.nativeElement.value = '';
+        this.options = [];
+        break;
+      case 'Enter': this.playBtn(); break;
     }
   }
 
@@ -59,7 +60,7 @@ export class StartComponent implements AfterViewInit {
   numberSearch(input: HTMLInputElement) {
     this.options = [];
     this.checkNumberValidity();
-    this.text.nativeElement.value = this.dictionary.searchByNumber(input.value);
+    this.text.nativeElement.value = this.utilityService.searchByNumber(input.value);
   }
 
   private checkNumberValidity() {
@@ -67,14 +68,14 @@ export class StartComponent implements AfterViewInit {
       this.number.nativeElement.value = this.number.nativeElement.value.substring(0,3);
     if (+this.number.nativeElement.value < 0) this.number.nativeElement.value = '1'; // Value less than 1
     if (+this.number.nativeElement.value === 0) this.number.nativeElement.value = ''; // Value equal 0
-    if (+this.number.nativeElement.value > 613) this.number.nativeElement.value = '613'; // Value greater than 613
+    if (+this.number.nativeElement.value > 614) this.number.nativeElement.value = '614'; // Value greater than 614
     if (this.number.nativeElement.value.indexOf('e')) // Symbol of e
       this.number.nativeElement.value = this.number.nativeElement.value.replace('e','');
   }
 
   textSearch(input: HTMLInputElement) {
     this.isNumber();
-    this.options = this.dictionary.searchByText(input.value);
+    this.options = this.utilityService.searchByText(input.value);
   }
 
   private isNumber() {
@@ -97,7 +98,8 @@ export class StartComponent implements AfterViewInit {
     const num = this.number.nativeElement.value;
     if (!num) return;
     let mode = (<HTMLInputElement> document.getElementsByClassName('selected').item(0)).value;
-    mode = mode === 'letra' ? 'l' : mode === 'música' ? 'm' : 'c';
-    this.router.navigate(['/', 'player', mode, num]);
+    mode = mode === 'letra' ? 'lyrics' : mode === 'música' ? 'music' : 'choir';
+    // TODO create canDeactivate guard to prevent exit while on player view and reset sound & lyrics services when leaving
+    this.router.navigate(['/', 'player', mode, num]/*, { replaceUrl: true }*/);
   }
 }

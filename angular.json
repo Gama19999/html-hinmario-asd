@@ -42,9 +42,24 @@
                 "output": "/media/"
               },
               {
-                "glob": "**/pop.mp3",
+                "glob": "**/*",
                 "input": "src/assets/sounds/",
                 "output": "/media/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets/files/choir/",
+                "output": "/media/choir/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets/files/music/",
+                "output": "/media/music/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets/files/lyrics/",
+                "output": "/media/lyrics/"
               }
             ],
             "styles": [

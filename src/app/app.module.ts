@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { StartComponent } from './start/start.component';
 import { PlayerComponent } from './player/player.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { FadeComponent } from './player/fade/fade.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StartComponent,
     PlayerComponent,
-    FooterComponent
+    FooterComponent,
+    FadeComponent
   ],
   imports: [
     BrowserModule,

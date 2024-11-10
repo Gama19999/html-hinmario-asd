@@ -3,11 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { StartComponent } from './start/start.component';
 import { PlayerComponent } from './player/player.component';
+import { FadeComponent } from './player/fade/fade.component';
 
 const routes: Routes = [
+  { path: 'fade', component: FadeComponent, title: 'HA7D | Loading' },
   { path: 'start', component: StartComponent, title: 'HA7D | Inicio' },
   { path: 'player/:mode/:num', component: PlayerComponent },
-  { path: '', redirectTo: 'start', pathMatch: 'full' },
+  { path: '', redirectTo: 'fade', pathMatch: 'full' },
   { path: '**', component: StartComponent }
 ];
 

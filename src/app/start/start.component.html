@@ -1,4 +1,4 @@
-<section class="grid full start bg-2 items-center" (keydown)="checkKey($event)">
+<section class="grid full start bg-2 items-center">
   <div class="start-app-name ff c1-3 r1 flex flex-center">
     <span class="start-app-txt">himnario adventista</span>
     <img src="./media/iasd_black.webp" alt="iasd-logo" class="start-app-logo" />
@@ -11,7 +11,7 @@
     <input type="button" value="cantado" class="fit ff start-control element pointer selected" #choir
            (click)="chooseMode(choir)" />
     <input type="number" placeholder="# # #" class="fit ff c1 r2 start-number start-control element" #number
-           min="1" max="613" step="1" (wheel)="updateNumber($event)" (input)="numberSearch(number)" />
+           min="1" max="614" step="1" (wheel)="updateNumber($event)" (input)="numberSearch(number)" />
     <input type="text" placeholder="Título ó Palabras" class="fit ff c1-3 r2 start-text start-control element" #text
            (input)="textSearch(text)"/>
     <i class="pi pi-play-circle start-init start-control element c3 r2 pointer"
