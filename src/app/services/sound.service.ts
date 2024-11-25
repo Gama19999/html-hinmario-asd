@@ -9,6 +9,8 @@ import { UtilityService } from './utility.service';
 export class SoundService {
   private _pop: Howl;
   private _hymn: Howl | undefined;
+  private _currentPos: number = 0;
+  private _timerId: any;
 
   constructor(private utilityService: UtilityService) {
     this._pop = new Howl({ src: ['./media/pop.mp3'], html5: true });
@@ -20,24 +22,46 @@ export class SoundService {
 
   loadMusic(num: string) {
     this._hymn = this.createHowl(environment.musicPath + this.utilityService.to3Number(num) + '.webm');
-    this.onceListeners();
+    this.setListeners();
   }
 
   loadChoir(num: string) {
     this._hymn = this.createHowl(environment.choirPath + this.utilityService.to3Number(num) + '.webm');
-    this.onceListeners();
+    this.setListeners();
   }
 
   private createHowl(src: string): Howl {
     return new Howl({ src: [src], html5: true, volume: 1.0, preload: true, autoplay: false });
   }
 
-  private onceListeners() {
+  private setListeners() {
     this._hymn!.once('load', () => {
       if (!browserRefresh) this._hymn!.play();
       document.getElementById('action')!.classList.add(this.isPlaying ? 'pi-pause' : 'pi-play');
     });
     this._hymn!.once('loaderror', (id, err) => console.log('Sound with ID: ', id, ' could not be loaded, error code: ', err));
+    this._hymn!.on('play', () => this.startTimer());
+    this._hymn!.on('pause', () => this.stopTimer());
+    this._hymn!.on('end', () => this.stopTimer(true));
+    this._hymn!.on('fade', () => this.stopTimer(true));
+  }
+
+  private startTimer() {
+    console.log('Resumed timer!');
+    this._timerId = setInterval(() => {
+      this._currentPos += 1;
+      console.log('Seek', this._currentPos);
+    }, 1000);
+  }
+
+  private stopTimer(end: boolean = false) {
+    clearInterval(this._timerId);
+    this._timerId = undefined;
+    console.log('Paused timer!');
+    if (end) {
+      this._currentPos = 0;
+      console.log('Stopped timer!');
+    }
   }
 
   doAction(element: any) {
