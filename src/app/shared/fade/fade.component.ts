@@ -14,6 +14,6 @@ export class FadeComponent implements AfterViewInit {
   constructor(private router: Router) {}
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.router.navigate(['/', 'start']), 2800);
+    setTimeout(() => this.router.navigate(['/', 'start'], {replaceUrl: true}), 2800);
   }
 }

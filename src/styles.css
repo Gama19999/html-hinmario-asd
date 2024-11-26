@@ -26,9 +26,6 @@ app-footer {
 .bg-2 { background: url("assets/images/backgrounds/bg-2.webp") 50% 50% / 100% 100% no-repeat; }
 .bg-3 { background: url("assets/images/backgrounds/bg-3.webp") 50% 50% / 100% 100% no-repeat; }
 .bg-4 { background: url("assets/images/backgrounds/bg-4.webp") 50% 50% / 100% 100% no-repeat; }
-@media screen and (max-width: 1024px) { /***** SMALL SCREEN VIEW *****/
-  .bg-1, .bg-2, .bg-3, .bg-4 { background-size: auto 100%; }
-}
 .pointer { cursor: pointer; }
 .element {
   background-color: rgba(220, 220, 220, 0.7);
@@ -54,6 +51,20 @@ app-footer {
 .empty {
   padding: 0 !important;
   box-shadow: none !important;
+}
+.hide { opacity: 0; }
+.title span {
+  padding: 2rem 1rem;
+  font-size: 4.5rem;
+}
+.title span:first-child { border-right: 3px solid black; }
+@media screen and (max-width: 1024px) { /***** SMALL SCREEN VIEW *****/
+  .bg-1, .bg-2, .bg-3, .bg-4 { background-size: auto 100%; }
+  .title span {
+    padding: 1rem;
+    font-size: 1.5rem;
+    max-width: 12rem;
+  }
 }
 
 /***** DISPLAY *****/
@@ -104,7 +115,12 @@ app-footer {
   font-family: "varela", serif;
   font-weight: bold;
 }
+.pf { font-family: "lisboa", serif; }
 @font-face {
     font-family: "varela";
     src: url("./assets/fonts/varela-reg.ttf") format("truetype");
+}
+@font-face {
+  font-family: "lisboa";
+  src: url("./assets/fonts/lisboa-bol.otf") format("opentype");
 }

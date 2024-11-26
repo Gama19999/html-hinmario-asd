@@ -3,7 +3,8 @@
   grid-template-rows: 100%;
 }
 .player-lyrics {
-  transition: background 1s ease;
+  grid-template-columns: 1fr;
+  grid-template-rows: 85% 15%;
 }
 .player-control {
   align-self: end;
@@ -12,13 +13,33 @@
   font-size: 1.2rem;
   padding: 0.5rem 1rem;
 }
-.player-prev {
-  margin-right: 10rem;
+.title {
+  transition: opacity 1s ease;
+  display: flex;
 }
-.player-next {
-  margin-left: 10rem;
+.text {
+  white-space: pre-line;
+  font-size: 4rem;
+  line-height: 7rem;
+  padding: 2rem 1rem;
+  max-width: 60%;
+  transition: opacity 1s ease;
 }
-.player-home {
-  justify-self: left;
+.bottoms {
+  justify-self: start;
   align-self: start;
+  margin-left: 5%;
+  font-size: 2rem;
 }
+@media screen and (max-width: 1024px) { /***** SMALL SCREEN VIEW *****/
+  .title { width: 100%; }
+  .text {
+    font-size: 1.5rem;
+    max-width: 90%;
+    line-height: 5rem;
+    padding: 2rem 0.5rem;
+  }
+  .bottoms { font-size: 1rem; }
+}
+.player-home { margin-right: 4rem; }
+.player-action { margin-left: 4rem; }

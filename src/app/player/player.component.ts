@@ -2,31 +2,25 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
-import { LyricsService } from '../services/lyrics.service';
-import { SoundService } from '../services/sound.service';
-import { UtilityService } from '../services/utility.service';
+import { ExitGuard, ExitGuardType } from '../guards/exit.guard';
+import { MediaService } from '../services/media.service';
 
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
   styleUrl: './player.component.css'
 })
-export class PlayerComponent implements AfterViewInit {
+export class PlayerComponent implements AfterViewInit, ExitGuard {
   @ViewChild('lyrics') private lyrics!: ElementRef;
-  @ViewChild('prev') private prev!: ElementRef;
   @ViewChild('action') private action!: ElementRef;
-  @ViewChild('next') private next!: ElementRef;
   @ViewChild('home') private home!: ElementRef;
   private mode!: string;
   private num!: string;
-  private name!: string;
 
-  constructor(private route: ActivatedRoute, private titleService: Title, private soundService: SoundService,
-              private lyricsService: LyricsService, private router: Router, private utilityService: UtilityService) {
+  constructor(private route: ActivatedRoute, private titleService: Title, private mediaService: MediaService, private router: Router) {
     this.route.url.subscribe(url => {
       this.mode = url[1].path;
       this.num = url[2].path;
-      this.name = this.utilityService.searchByNumber(this.num);
     });
     this.titleService.setTitle('HA7D | ' + this.num);
   }
@@ -38,43 +32,33 @@ export class PlayerComponent implements AfterViewInit {
 
   private init() {
     switch (this.mode) {
-      case 'lyrics': this.lyricsService.loadLyrics(this.num, this.lyrics.nativeElement); break;
-      case 'music':
-        this.lyricsService.loadLyrics(this.num, this.lyrics.nativeElement);
-        this.soundService.loadMusic(this.num);
-        break;
-      case 'choir':
-        this.lyricsService.loadLyrics(this.num, this.lyrics.nativeElement);
-        this.soundService.loadChoir(this.num);
-        break;
+      case 'lyrics': this.mediaService.loadLyrics(this.num, this.lyrics); break;
+      case 'music': this.mediaService.loadMusic(this.num, this.lyrics); break;
+      case 'choir': this.mediaService.loadChoir(this.num, this.lyrics); break;
       default: console.log('Unknown mode!');
     }
   }
 
   checkKey(event: any) {
     switch ((<KeyboardEvent> event).code) {
-      case 'ArrowRight': this.next.nativeElement.click(); break;
-      case 'ArrowLeft': this.prev.nativeElement.click(); break;
+      case 'Backspace': this.home.nativeElement.click(); break;
       case 'Space': this.action.nativeElement.click(); break;
-      case 'ArrowDown': this.home.nativeElement.click(); break;
     }
   }
 
   goHome() {
-    this.soundService.reset();
-    this.lyricsService.reset();
+    this.mediaService.reset();
     this.router.navigate(['/', 'start']);
   }
 
-  doPrev() {
-    this.lyricsService.prev();
-  }
-
   doAction(){
-    this.soundService.doAction(this.action.nativeElement);
+    this.mediaService.doAction(this.action.nativeElement);
   }
 
-  doNext() {
-    this.lyricsService.next();
+  canExit(): ExitGuardType {
+    if (this.mediaService.isPlaying) {
+      this.mediaService.reset();
+      return true;
+    } else return true;
   }
 }

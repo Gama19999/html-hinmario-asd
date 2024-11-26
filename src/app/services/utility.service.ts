@@ -1,20 +1,13 @@
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 
 import { Dictionary } from '../models/dictionary.model';
+import { HymnLyrics, Lyrics } from '../models/types.model';
+import { hymnLyrics } from '../models/lyrics.model';
 
 @Injectable({ providedIn: 'root' })
 export class UtilityService extends Dictionary {
 
   constructor() { super(); }
-
-  /**
-   * Normalizes number with zeros before if it is from 1-9 (1 -> 01). Used for images.
-   * @param num Number to normalize
-   * @return Normalized number with length 2
-   */
-  to2Number(num: string): string {
-    return num.length === 1 ? '0' + num : num;
-  }
 
   /**
    * Normalizes number with zeros before if it is from 1-9 (1 -> 01). Used for paths and sounds.
@@ -57,13 +50,43 @@ export class UtilityService extends Dictionary {
     return options;
   }
 
+  setHymnCover(num: string, elem: ElementRef) {
+    elem.nativeElement.children[0].append(document.createElement('span'));
+    elem.nativeElement.children[0].append(document.createElement('span'));
+    elem.nativeElement.children[0].children[0].innerHTML = this.to3Number(num);
+    elem.nativeElement.children[0].children[1].innerHTML = this.getHymnLyrics(num)[this.to3Number(num)]['name'];
+    elem.nativeElement.children[2].innerHTML = this.getHymnLyrics(num)[this.to3Number(num)]['verses'];
+  }
+
   /**
-   * Gets the maximum number of images for the lyrics of the hymn number
-   * @param num Number of the hymn
-   * @return Max number of lyrics images
+   * Retrieves HymnLyrics object containing hymn data
+   * @param num String which represents the number of the hymn to search the name for
+   * @returns HymnLyrics object containing hymn data
    */
-  getLyricsLimit(num: string): number {
-    num = num.length === 1 ? '00' + num : num.length === 2 ? '0' + num : num;
-    return this.limit[num];
+  private getHymnLyrics(num: string): HymnLyrics {
+    num = this.to3Number(num);
+    return {[num]: hymnLyrics[num]};
+  }
+
+  updateLyrics(currentPos: number, num: string, elem: ElementRef) {
+    const lyrics: Lyrics = this.getHymnLyrics(num)[this.to3Number(num)]['lyrics'];
+    if (lyrics[`${currentPos}`]) {
+      this.hideHymnCover(elem);
+      elem.nativeElement.children[1].innerHTML = lyrics[`${currentPos}`]['text'];
+    }
+  }
+
+  private hideHymnCover(elem: ElementRef) {
+    if (!elem.nativeElement.children[0].classList.contains('hide')){
+      elem.nativeElement.children[0].classList.add('hide');
+      elem.nativeElement.children[2].classList.add('hide');
+      elem.nativeElement.children[1].classList.remove('hide');
+    }
+  }
+
+  restoreHymnCover(elem: ElementRef) {
+    elem.nativeElement.children[1].classList.add('hide');
+    elem.nativeElement.children[0].classList.remove('hide');
+    elem.nativeElement.children[2].classList.remove('hide');
   }
 }

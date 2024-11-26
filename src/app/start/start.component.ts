@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { SoundService } from '../services/sound.service';
+import { MediaService } from '../services/media.service';
 import { UtilityService } from '../services/utility.service';
 
 @Component({
@@ -17,9 +17,10 @@ export class StartComponent implements AfterViewInit {
   @ViewChild('text') private text!: ElementRef;
   @ViewChild('divOpts') private divOpts!: ElementRef;
   protected readonly innerWidth = innerWidth;
+  mode: string = 'choir';
   options: string[] = [];
 
-  constructor(private soundService: SoundService, private utilityService: UtilityService, private router: Router) {}
+  constructor(private soundService: MediaService, private utilityService: UtilityService, private router: Router) {}
 
   ngAfterViewInit() {
     this.number.nativeElement.focus();
@@ -38,9 +39,10 @@ export class StartComponent implements AfterViewInit {
   }
 
   chooseMode(target: HTMLInputElement) {
-    this.soundService.tap();
+    this.soundService.click();
     this.deselectAll();
     target.classList.add('selected');
+    this.mode = target.value === 'letra' ? 'lyrics' : target.value === 'música' ? 'music' : 'choir';
   }
 
   private deselectAll() {
@@ -94,12 +96,9 @@ export class StartComponent implements AfterViewInit {
   }
 
   playBtn() {
-    this.soundService.tap();
+    this.soundService.click();
     const num = this.number.nativeElement.value;
     if (!num) return;
-    let mode = (<HTMLInputElement> document.getElementsByClassName('selected').item(0)).value;
-    mode = mode === 'letra' ? 'lyrics' : mode === 'música' ? 'music' : 'choir';
-    // TODO create canDeactivate guard to prevent exit while on player view and reset sound & lyrics services when leaving
-    this.router.navigate(['/', 'player', mode, num]/*, { replaceUrl: true }*/);
+    this.router.navigate(['/', 'player', this.mode, num]);
   }
 }

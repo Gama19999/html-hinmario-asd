@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { Howl } from 'howler';
 
 import { environment } from '../../environments/environment';
@@ -6,26 +6,36 @@ import { browserRefresh } from '../app.component';
 import { UtilityService } from './utility.service';
 
 @Injectable({ providedIn: 'root' })
-export class SoundService {
-  private _pop: Howl;
+export class MediaService {
+  private _click: Howl;
   private _hymn: Howl | undefined;
+  private _num: string = '';
+  private _playerLyrics: ElementRef = new ElementRef({});
   private _currentPos: number = 0;
   private _timerId: any;
 
   constructor(private utilityService: UtilityService) {
-    this._pop = new Howl({ src: ['./media/pop.mp3'], html5: true });
+    this._click = new Howl({ src: ['./media/pop.mp3'], html5: true });
   }
 
   get isPlaying(): boolean { return this._hymn ? this._hymn.playing() : false; }
 
-  tap = () => this._pop.play();
+  click = () => this._click.play();
 
-  loadMusic(num: string) {
+  loadLyrics(num: string, elem: ElementRef) {
+    this._num = num;
+    this._playerLyrics = elem;
+    this.utilityService.setHymnCover(this._num, this._playerLyrics);
+  }
+
+  loadMusic(num: string, elem: ElementRef) {
+    this.loadLyrics(num, elem);
     this._hymn = this.createHowl(environment.musicPath + this.utilityService.to3Number(num) + '.webm');
     this.setListeners();
   }
 
-  loadChoir(num: string) {
+  loadChoir(num: string, elem: ElementRef) {
+    this.loadLyrics(num, elem);
     this._hymn = this.createHowl(environment.choirPath + this.utilityService.to3Number(num) + '.webm');
     this.setListeners();
   }
@@ -50,7 +60,7 @@ export class SoundService {
     console.log('Resumed timer!');
     this._timerId = setInterval(() => {
       this._currentPos += 1;
-      console.log('Seek', this._currentPos);
+      this.utilityService.updateLyrics(this._currentPos, this._num, this._playerLyrics);
     }, 1000);
   }
 
@@ -61,6 +71,9 @@ export class SoundService {
     if (end) {
       this._currentPos = 0;
       console.log('Stopped timer!');
+      document.getElementById('action')!.classList.remove('pi-pause');
+      document.getElementById('action')!.classList.add('pi-play');
+      this.utilityService.restoreHymnCover(this._playerLyrics);
     }
   }
 
@@ -74,7 +87,12 @@ export class SoundService {
   }
 
   reset() {
-    this._hymn!.fade(1.0, 0.0, 1500);
-    setTimeout(() => this._hymn!.unload(), 1501);
+    if (this.isPlaying) {
+      this._hymn!.fade(1.0, 0.0, 1500);
+      setTimeout(() => this._hymn!.unload(), 1501);
+    } else this._hymn!.unload();
+    this._num = '';
+    this._playerLyrics = new ElementRef({});
+    this._currentPos = 0;
   }
 }
