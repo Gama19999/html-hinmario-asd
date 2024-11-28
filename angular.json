@@ -43,6 +43,11 @@
               },
               {
                 "glob": "**/*",
+                "input": "src/assets/images/backgrounds/",
+                "output": "/media/backgrounds/"
+              },
+              {
+                "glob": "**/*",
                 "input": "src/assets/sounds/",
                 "output": "/media/"
               },
@@ -55,11 +60,6 @@
                 "glob": "**/*",
                 "input": "src/assets/files/music/",
                 "output": "/media/music/"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/assets/files/lyrics/",
-                "output": "/media/lyrics/"
               }
             ],
             "styles": [
@@ -69,7 +69,7 @@
             "allowedCommonJsDependencies": ["howler"]
           },
           "configurations": {
-            "production": {
+            "browser": {
               "budgets": [
                 {
                   "type": "initial",
@@ -86,7 +86,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.prod.browser.ts"
                 }
               ]
             },
@@ -97,13 +97,13 @@
               "outputHashing": "all"
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "browser"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "production": {
-              "buildTarget": "himnario-adventista:build:production"
+            "browser": {
+              "buildTarget": "himnario-adventista:build:browser"
             },
             "development": {
               "buildTarget": "himnario-adventista:build:development"

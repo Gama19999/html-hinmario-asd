@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -10,7 +10,8 @@ import { MediaService } from '../services/media.service';
   templateUrl: './player.component.html',
   styleUrl: './player.component.css'
 })
-export class PlayerComponent implements AfterViewInit, ExitGuard {
+export class PlayerComponent implements AfterViewInit, ExitGuard, OnDestroy {
+  @ViewChild('player') private player!: ElementRef;
   @ViewChild('lyrics') private lyrics!: ElementRef;
   @ViewChild('action') private action!: ElementRef;
   @ViewChild('home') private home!: ElementRef;
@@ -27,7 +28,8 @@ export class PlayerComponent implements AfterViewInit, ExitGuard {
 
   ngAfterViewInit() {
     this.init();
-    document.addEventListener('keyup', (event: any) => this.checkKey(event));
+    this.player.nativeElement.classList.add('bg-' + this.mediaService.getBackground());
+    document.addEventListener('keyup', this.keyListener);
   }
 
   private init() {
@@ -39,7 +41,9 @@ export class PlayerComponent implements AfterViewInit, ExitGuard {
     }
   }
 
-  checkKey(event: any) {
+  private keyListener = (event: any) => this.checkKey(event);
+
+  private checkKey(event: any) {
     switch ((<KeyboardEvent> event).code) {
       case 'Backspace': this.home.nativeElement.click(); break;
       case 'Space': this.action.nativeElement.click(); break;
@@ -60,5 +64,9 @@ export class PlayerComponent implements AfterViewInit, ExitGuard {
       this.mediaService.reset();
       return true;
     } else return true;
+  }
+
+  ngOnDestroy() {
+    document.removeEventListener('keyup', this.keyListener);
   }
 }

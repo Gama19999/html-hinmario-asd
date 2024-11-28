@@ -52,6 +52,10 @@
   font-size: 1.2rem;
 }
 @media screen and (max-width: 1024px) { /***** SMALL SCREEN VIEW *****/
+  .start-menu {
+    bottom: 7%;
+    left: 45%;
+  }
   .start-app-name { font-size: 2.2rem; }
   .start-app-logo {
     width: 15%;
@@ -74,6 +78,6 @@
   .start-options {
     width: 90%;
     margin-left: 0;
-    max-height: 330px;
+    max-height: 290px;
   }
 }

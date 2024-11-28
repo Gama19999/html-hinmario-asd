@@ -1,10 +1,11 @@
 {
   "name": "himnario-adventista",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build-browser": "ng build --configuration=browser",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

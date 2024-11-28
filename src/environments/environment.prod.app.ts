@@ -1,8 +1,9 @@
 export const environment = {
   production: true,
   appName: 'himnario adventista 7°D',
-  version: '2.0.0',
+  version: '2.1.0',
+  platform: 'app',
   musicPath: './media/music/',
   choirPath: './media/choir/',
-  lyricsPath: './media/lyrics/'
+  maxBg: 5
 };

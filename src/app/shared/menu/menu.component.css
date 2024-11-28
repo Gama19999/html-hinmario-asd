@@ -1,0 +1,28 @@
+.menu {
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+  padding: 0.5rem;
+}
+.menu-content {
+  position: absolute;
+  bottom: 12%;
+  gap: 1rem 0;
+  font-size: 0.95rem;
+  transition: opacity 400ms ease-in-out;
+}
+.menu-link {
+  padding: 0.3rem 1rem;
+  text-align: center;
+}
+@media screen and (max-width: 1024px) { /***** SMALL SCREEN VIEW *****/
+  .menu {
+    bottom: 7%;
+    left: 45%;
+  }
+  .menu-content {
+    bottom: 15%;
+    left: 38%;
+    font-size: 0.8rem;
+  }
+}

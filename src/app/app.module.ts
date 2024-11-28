@@ -7,6 +7,7 @@ import { StartComponent } from './start/start.component';
 import { PlayerComponent } from './player/player.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { FadeComponent } from './shared/fade/fade.component';
+import { MenuComponent } from './shared/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { FadeComponent } from './shared/fade/fade.component';
     StartComponent,
     PlayerComponent,
     FooterComponent,
-    FadeComponent
+    FadeComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MediaService } from '../services/media.service';
@@ -9,7 +9,8 @@ import { UtilityService } from '../services/utility.service';
   templateUrl: './start.component.html',
   styleUrl: './start.component.css'
 })
-export class StartComponent implements AfterViewInit {
+export class StartComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('start') private start!: ElementRef;
   @ViewChild('lyrics') private lyrics!: ElementRef;
   @ViewChild('music') private music!: ElementRef;
   @ViewChild('choir') private choir!: ElementRef;
@@ -20,26 +21,44 @@ export class StartComponent implements AfterViewInit {
   mode: string = 'choir';
   options: string[] = [];
 
-  constructor(private soundService: MediaService, private utilityService: UtilityService, private router: Router) {}
+  constructor(private mediaService: MediaService, private utilityService: UtilityService, private router: Router) {}
 
   ngAfterViewInit() {
     this.number.nativeElement.focus();
-    document.addEventListener('keyup', (event: any) => this.checkKey(event));
+    this.start.nativeElement.classList.add('bg-' + this.mediaService.getBackground());
+    document.addEventListener('keyup', this.keyListener);
   }
 
-  checkKey(event: any) {
+  private keyListener = (event: any) => this.checkKey(event);
+
+  private checkKey(event: any) {
     switch ((<KeyboardEvent> event).code) {
-      case 'Escape':
-        this.number.nativeElement.value = '';
-        this.text.nativeElement.value = '';
-        this.options = [];
-        break;
+      case 'Escape': this.clear(); break;
+      case 'ControlLeft':
+      case 'ControlRight': this.toggleMenu(); break;
       case 'Enter': this.playBtn(); break;
     }
   }
 
+  private clear() {
+    this.number.nativeElement.value = '';
+    this.text.nativeElement.value = '';
+    this.options = [];
+  }
+
+  private toggleMenu() {
+    document.getElementById('menu')!.click();
+  }
+
+  playBtn() {
+    this.mediaService.click();
+    const num = this.number.nativeElement.value;
+    if (!num) return;
+    this.router.navigate(['/', 'player', this.mode, num]);
+  }
+
   chooseMode(target: HTMLInputElement) {
-    this.soundService.click();
+    this.mediaService.click();
     this.deselectAll();
     target.classList.add('selected');
     this.mode = target.value === 'letra' ? 'lyrics' : target.value === 'música' ? 'music' : 'choir';
@@ -55,27 +74,23 @@ export class StartComponent implements AfterViewInit {
     const numUp = event.deltaY * -1 > 0;
     let currentVal = +this.number.nativeElement.value;
     this.number.nativeElement.value = numUp ? currentVal+1 : currentVal-1;
-    this.checkNumberValidity();
+    this.utilityService.checkNumberValidity(this.number);
     this.numberSearch(this.number.nativeElement);
   }
 
   numberSearch(input: HTMLInputElement) {
+    if (this.isMenuOpen()) this.toggleMenu();
     this.options = [];
-    this.checkNumberValidity();
+    this.utilityService.checkNumberValidity(this.number);
     this.text.nativeElement.value = this.utilityService.searchByNumber(input.value);
   }
 
-  private checkNumberValidity() {
-    if (this.number.nativeElement.value.length > 3) // More than 3 digits
-      this.number.nativeElement.value = this.number.nativeElement.value.substring(0,3);
-    if (+this.number.nativeElement.value < 0) this.number.nativeElement.value = '1'; // Value less than 1
-    if (+this.number.nativeElement.value === 0) this.number.nativeElement.value = ''; // Value equal 0
-    if (+this.number.nativeElement.value > 614) this.number.nativeElement.value = '614'; // Value greater than 614
-    if (this.number.nativeElement.value.indexOf('e')) // Symbol of e
-      this.number.nativeElement.value = this.number.nativeElement.value.replace('e','');
+  private isMenuOpen(): string | null {
+    return document.getElementById('menu')!.getAttribute('opened');
   }
 
   textSearch(input: HTMLInputElement) {
+    if (this.isMenuOpen()) this.toggleMenu();
     this.isNumber();
     this.options = this.utilityService.searchByText(input.value);
   }
@@ -95,10 +110,7 @@ export class StartComponent implements AfterViewInit {
     this.options = [];
   }
 
-  playBtn() {
-    this.soundService.click();
-    const num = this.number.nativeElement.value;
-    if (!num) return;
-    this.router.navigate(['/', 'player', this.mode, num]);
+  ngOnDestroy() {
+    document.removeEventListener('keyup', this.keyListener);
   }
 }

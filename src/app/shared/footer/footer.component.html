@@ -1,2 +1,4 @@
-<span class="version ff fit">v{{ version }}</span>
+<span class="version ff fit" [ngClass]="{'element': !justVersion}"
+      [ngStyle]="{'padding': !justVersion ? '0 5px' : ''}">v{{ version }}
+</span>
 <footer class="footer element ff fit" *ngIf="!justVersion">iglesia adventista del s&eacute;ptimo d&iacute;a | 2024</footer>

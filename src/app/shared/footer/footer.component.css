@@ -3,12 +3,12 @@
   bottom: 1px;
   right: 4px;
   font-size: 0.8rem;
-  text-shadow: 1px 1px white;
 }
 .footer {
   text-transform: capitalize;
   padding: 0.3rem 1rem;
   font-size: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 @media screen and (max-width: 1024px) { /*** SMALL SCREEN VIEW ***/
   .version {

@@ -26,6 +26,7 @@ app-footer {
 .bg-2 { background: url("assets/images/backgrounds/bg-2.webp") 50% 50% / 100% 100% no-repeat; }
 .bg-3 { background: url("assets/images/backgrounds/bg-3.webp") 50% 50% / 100% 100% no-repeat; }
 .bg-4 { background: url("assets/images/backgrounds/bg-4.webp") 50% 50% / 100% 100% no-repeat; }
+.bg-5 { background: url("assets/images/backgrounds/bg-5.webp") 50% 50% / 100% 100% no-repeat; }
 .pointer { cursor: pointer; }
 .element {
   background-color: rgba(220, 220, 220, 0.7);
@@ -41,6 +42,8 @@ app-footer {
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 .selected,
+.menu:active,
+.menu-link:active,
 .start-init:active,
 .player-control:active {
   background-color: rgba(177, 177, 177, 0.85);
@@ -53,18 +56,37 @@ app-footer {
   box-shadow: none !important;
 }
 .hide { opacity: 0; }
+.hidden {
+  display: none !important;
+  opacity: 0;
+}
 .title span {
   padding: 2rem 1rem;
   font-size: 4.5rem;
 }
 .title span:first-child { border-right: 3px solid black; }
+.bottoms span { padding: 0 5rem; }
+.bottoms span:first-child { font-size: 2rem; }
+.bottoms span:not(:first-child) {
+  grid-column: 1;
+  grid-row: 2;
+}
+.bottoms span:nth-child(3) {
+  margin-top: 1.5rem;
+}
 @media screen and (max-width: 1024px) { /***** SMALL SCREEN VIEW *****/
   .bg-1, .bg-2, .bg-3, .bg-4 { background-size: auto 100%; }
   .title span {
     padding: 1rem;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     max-width: 12rem;
   }
+  .bottoms span {
+    padding: 0 1rem;
+    grid-column: 1 / 3 !important;
+  }
+  .bottoms span:first-child { font-size: 1.2rem; }
+  .bottoms span:not(:first-child) { font-size: 0.8rem; }
 }
 
 /***** DISPLAY *****/

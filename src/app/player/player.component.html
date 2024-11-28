@@ -1,8 +1,9 @@
-<section class="full grid player items-center" id="player">
+<section class="full grid player items-center" id="bg" #player>
+  <div class="player-blur full c1-3 r1"></div>
   <div class="player-lyrics c1-3 r1 grid full items-center pf" #lyrics>
     <span class="title c1 r1 fit flex-center"></span>
     <span class="text fit c1 r1"></span>
-    <span class="bottoms fit c1 r2"></span>
+    <span class="bottoms full grid c1 r2"></span>
   </div>
   <i class="player-home player-control pi pi-home c1-3 r1 element pointer" (click)="goHome()" #home></i>
   <i class="player-action player-control pi c1-3 r1 element pointer" id="action" (click)="doAction()" #action></i>

@@ -13,12 +13,15 @@ export class MediaService {
   private _playerLyrics: ElementRef = new ElementRef({});
   private _currentPos: number = 0;
   private _timerId: any;
+  private _background: number = 1;
+  private _roundBg: boolean = false;
 
   constructor(private utilityService: UtilityService) {
     this._click = new Howl({ src: ['./media/pop.mp3'], html5: true });
   }
 
   get isPlaying(): boolean { return this._hymn ? this._hymn.playing() : false; }
+  get isRoundBg(): boolean { return this._roundBg; }
 
   click = () => this._click.play();
 
@@ -85,6 +88,13 @@ export class MediaService {
       element.classList.add(this.isPlaying ? 'pi-pause' : 'pi-play');
     }, browserRefresh ? 100 : 0);
   }
+
+  getBackground(): number {
+    if (this._roundBg) this._background = +this._background + 1 > environment.maxBg ? 1 : +this._background + 1;
+    return this._background;
+  }
+
+  toggleRoundBg() { this._roundBg = !this._roundBg; }
 
   reset() {
     if (this.isPlaying) {

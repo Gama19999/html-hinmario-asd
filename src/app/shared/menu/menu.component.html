@@ -1,0 +1,15 @@
+<i class="pi pi-bars menu element pointer" id="menu" (click)="toggleMenu()" #menu></i>
+<nav class="menu-content fit grid ff hidden" (click)="linkClicked($event.target)" #links>
+  <span class="menu-link element pointer" id="rbg">
+    <i class="pi pi-sync" [ngClass]="{'pi-spin': isRoundBg}"></i> Fondos
+  </span>
+  <span class="menu-link element pointer" id="idx"><i class="pi pi-list"></i> &Iacute;ndices</span>
+  <span class="menu-link element pointer" id="cred"><i class="pi pi-crown"></i> Cr&eacute;ditos</span>
+  <span class="menu-link element pointer" id="andr" *ngIf="!isApp">
+    <i class="pi pi-download"></i>&nbsp;<i class="pi pi-android"></i> App
+  </span>
+  <span class="menu-link element pointer" id="wind" *ngIf="!isApp">
+    <i class="pi pi-download"></i>&nbsp;<i class="pi pi-desktop"></i> App
+  </span>
+  <span class="menu-link element pointer" id="exit" *ngIf="isApp"><i class="pi pi-sign-out"></i> Salir</span>
+</nav>
