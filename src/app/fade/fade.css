@@ -1,0 +1,38 @@
+.fade {
+    grid-template-columns: 100%;
+    grid-template-rows: 70% 30%;
+    justify-items: center;
+    position: absolute;
+    top: 0;
+}
+.logo {
+    align-self: flex-end;
+    /* duration | easing-function | delay | iteration-count | direction | fill-mode | play-state | name */
+    animation: 2s cubic-bezier(0.47, 1.94, 0.31, 0.8) 0s 1 normal both running appear;
+}
+.app-name {
+    color: var(--primary);
+    width: 30%;
+    text-align: center;
+    align-self: center;
+    animation: 2s cubic-bezier(0.47, 1.94, 0.31, 0.8) 0s 1 normal both running appear;
+}
+.underline {
+    border: 3px solid var(--primary);
+    border-radius: 50px;
+}
+.app-version {
+    align-self: flex-end;
+    font-style: italic;
+    color: var(--primary);
+}
+@keyframes appear {
+    0% {
+        transform: translateY(25%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

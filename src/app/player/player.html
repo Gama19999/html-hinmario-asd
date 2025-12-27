@@ -1,0 +1,29 @@
+<div class="full {{ theme }} pattern-{{ theme }}"></div>
+<section class="player full grid items-center bg {{ theme }}">
+    <video #videoPlayer autoplay class="video c2 r13" (pause)="updateState()" (play)="updateState()" (ended)="playNext()">
+        <source [src]="videoFile" type="video/mp4">
+        Video not supported.
+    </video>
+    <div class="controls c13 r3 flex flex-center" tabindex="-1" #controls (keyup)="controlsListener($event)">
+        <div class="btn flex flex-center under-scaled pointer" (click)="toggleMute()">
+            <app-btn-mute [mute]="mute" class="small"></app-btn-mute>
+        </div>
+        <div class="btn flex flex-center pointer" (click)="toggleState()">
+            <app-btn-state [state]="state" [small]="true" class="small"></app-btn-state>
+        </div>
+        <div class="btn flex flex-center under-scaled pointer" (click)="goLobby()">
+            <app-btn-back class="small"></app-btn-back>
+        </div>
+    </div>
+    <app-modal width="25%" height="fit-content" class="modal" [ngClass]="{'hidden': state === 'playing'}" (close)="toggleState()">
+        <div class="modal-grid grid items-center">
+            <span class="fn bold">PAUSA</span>
+            <span class="modal-title fn bold">Siguiente a eschuchar</span>
+            <div class="modal-playlist fn bold">
+                @for (item of playlist$ | async; track $index) {
+                    <app-result [data]="{number: item, title: ''}" type="playlist"></app-result>
+                }
+            </div>
+        </div>
+    </app-modal>
+</section>

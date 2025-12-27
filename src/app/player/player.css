@@ -1,0 +1,33 @@
+.player {
+    grid-template-columns: 5% 1fr 5%;
+    grid-template-rows: 10% 1fr 10%;
+    position: absolute;
+    top: 0;
+}
+.video {
+    height: 100%;
+    object-fit: cover;
+    box-shadow: 0 0 70px 5px black;
+}
+.controls {
+    outline: none;
+    border: none;
+    gap: 0 1rem;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 500ms;
+}
+.controls:hover { opacity: 1; }
+.btn {
+    width: 70px;
+    height: 70px;
+    background-color: var(--tertiary);
+    border-radius: 50px;
+    box-shadow: 0 0 5px 8px var(--shadow-dim);
+}
+.btn:active { box-shadow: 0 0 5px 4px var(--shadow-dim); }
+.under-scaled { scale: 0.6; }
+.modal-playlist { 
+    max-height: 300px;
+    overflow-y: auto;
+}

@@ -1,0 +1,88 @@
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
+
+import { ConfigService } from '../shared/services/config.service';
+import { PlaylistService } from '../shared/services/playlist.service';
+import { BtnState } from '../shared/svg/btns/btn-state';
+import { BtnMute } from '../shared/svg/btns/btn-mute';
+import { BtnBack } from '../shared/svg/btns/btn-back';
+import { Modal } from '../shared/component/modal/modal';
+import { Result } from '../lobby/result/result';
+import { MediaState, Theme } from '../shared/util/app.types';
+
+@Component({
+  selector: 'app-player',
+  imports: [BtnState, BtnMute, BtnBack, Modal, Result, NgClass, AsyncPipe],
+  templateUrl: './player.html',
+  styleUrl: './player.css',
+})
+export class Player implements OnInit, AfterViewInit, OnDestroy {
+  private subs: Subscription[] = [];
+  theme!: Theme;
+  playingNum: any;
+  videoFile: any;
+  state: MediaState = 'playing';
+  mute: boolean = false;
+  playlist$: BehaviorSubject<string[]>;
+  
+  @ViewChild('controls') controls!: ElementRef<HTMLElement>;
+  @ViewChild('videoPlayer') videoPlayer!: ElementRef<HTMLVideoElement>;
+
+  constructor(private configSrv: ConfigService, private playSrv: PlaylistService, private titleSrv: Title, private router: Router) {
+    this.playlist$ = playSrv.playlist;
+  }
+
+  ngOnInit(): void {
+    this.subs.push(this.configSrv.theme$.subscribe(val => this.theme = val));
+    this.prepareVideoFile();
+  }
+
+  private prepareVideoFile() {
+    this.playingNum = this.playSrv.nextInPlaylist();
+    if (!this.playingNum) this.goLobby();
+    this.titleSrv.setTitle(this.titleSrv.getTitle().replace('{}', this.playingNum ?? ''));
+    this.videoFile = `assets/video/${this.playingNum}.mp4`;
+  }
+
+  ngAfterViewInit(): void {
+    this.controls.nativeElement.focus();
+  }
+
+  playNext() {
+    this.prepareVideoFile();
+    this.videoPlayer.nativeElement.load();
+    this.configSrv.playThrough$.value ? this.videoPlayer.nativeElement.play() : this.videoPlayer.nativeElement.pause();
+  }
+
+  updateState() { this.state = this.videoPlayer.nativeElement.paused ? 'paused' : 'playing'; }
+
+  controlsListener(evt: KeyboardEvent) {
+    switch (evt.code) {
+      case 'KeyM': this.toggleMute(); return;
+      case 'Space': this.toggleState(); return;
+      case 'Backspace': this.goLobby(); return;
+    }
+  }
+
+  toggleMute() {
+    this.videoPlayer.nativeElement.muted = !this.videoPlayer.nativeElement.muted;
+    this.mute = this.videoPlayer.nativeElement.muted;
+  }
+
+  toggleState() {
+    this.videoPlayer.nativeElement.paused ? this.videoPlayer.nativeElement.play() : this.videoPlayer.nativeElement.pause();
+    this.controls.nativeElement.focus();
+  }
+
+  goLobby() { this.router.navigate(['/lobby'], { replaceUrl: true }); }
+
+  ngOnDestroy(): void {
+    this.videoPlayer.nativeElement.pause();
+    this.videoFile = undefined;
+    this.videoPlayer.nativeElement.load();
+    this.subs.forEach(sub => sub.unsubscribe());
+  }
+}

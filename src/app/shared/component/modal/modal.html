@@ -1,0 +1,7 @@
+<div class="backdrop full"></div>
+<section class="modal-content full flex flex-center">
+    <div class="card" [ngStyle]="{'width': width, 'height': height}">
+        <span class="close-mark fn bold pointer" (click)="closeModal()">&#10008;</span>
+        <ng-content></ng-content>
+    </div>
+</section>

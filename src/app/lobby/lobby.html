@@ -1,0 +1,51 @@
+<div class="full {{ theme }} pattern-{{ theme }}"></div>
+<section class="lobby full grid items-center {{ theme }}">
+    <span class="app-name ft bold c2 r1">{{ appInfo.name }}</span>
+    <app-logo class="logo c2 r1"></app-logo>
+    <div class="finder full grid items-center fn bold c2 r2">
+        <input type="search" name="search" #searchField class="field fn bold" autocomplete="off" autofocus
+            placeholder="Buscar por n&uacute;mero, t&iacute;tulo o palabras" (input)="lookup($event)"
+            (keyup)="searchKeyListener($event)">
+        <div class="found grid items-center" #foundList (keyup)="foundKeyListener($event)"
+            (keyup.control.space)="addToPlayList($event)">
+            <ng-container #resultList></ng-container>
+        </div>
+    </div>
+    <div class="playlist grid fn bold c2 r3">
+        <div class="queue c1 r1" (wheel)="scrollPlaylist($event)" #queueEl>
+            <ng-container #queue></ng-container>
+        </div>
+        @if (enablePlaylistBtns) {
+            <span class="playlist-control pointer c2 r1" (click)="cancelPlaylist()">Cancelar</span>
+            <span class="playlist-control pointer c3 r1" (click)="startPlayback()">Iniciar</span>
+        }
+    </div>
+    <app-btn-config class="settings-btn pointer c1" (click)="settingsHidden = false"></app-btn-config>
+    <span class="app-version fs bold c3 r3">{{ appInfo.version }}</span>
+    <app-modal height="fit-content" class="modal" [ngClass]="{'hidden': settingsHidden}" (close)="closeSettings()">
+        <div class="modal-grid grid items-center fn bold">
+            <span class="modal-title">Ajustes</span>
+            <label for="theme">
+                Tema de color <input type="button" id="theme" class="toggle pointer fn bold"
+                    [value]="theme === 'light' ? 'claro' : 'oscuro'" (click)="toggleTheme()">
+            </label>
+            <label for="through">
+                Reproducci&oacute;n autom&aacute;tica <input type="button" id="through" class="toggle pointer fn bold"
+                    [value]="playThough ? 'activada' : 'desactivada'" (click)="togglePlayThrough()">
+            </label>
+            <label for="fullscreen">
+                @if (fullscreen.src === 'f11') { F11 para entrar/salir de pantalla completa }
+                @else {
+                    <input type="button" id="fullscreen" class="toggle pointer fn bold"
+                        [value]="fullscreen.state ? 'Desactivar' : 'Activar'" (click)="toggleFullScreen()"> pantalla completa
+                }
+            </label>
+            <div style="height: 3rem;"></div>
+            <span class="fs">Aplicaci&oacute;n desarrollada por {{ appContact.developer }}</span>
+            <span class="fs">App disponible en <a [href]="appContact.siteUrl" target="_blank">
+                {{ appContact.company }}</a> o descarga desde <a [href]="appContact.githubUrl"
+                target="_blank">GitHub</a></span>
+            <span class="fs">{{ appInfo.name }} - {{ appContact.company }} - {{ appInfo.year }}</span>
+        </div>
+    </app-modal>
+</section>

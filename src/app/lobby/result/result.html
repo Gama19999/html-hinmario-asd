@@ -1,0 +1,9 @@
+<div class="result flex-center fit" [ngClass]="{'as-result': data.title, 'as-item': !data.title}">
+    <span>{{ data.number }}</span>
+    @if (type === 'found') {
+        <span>{{ data.title }}</span>
+        <span class="pointer" (click)="add($event)">&#10010;</span>
+    } @else {
+        <span class="pointer" (click)="remove($event)">&#10008;</span>
+    }    
+</div>
