@@ -1,4 +1,4 @@
-const version = '3.0.0';
+const version = '3.1.0';
 export const environment = {
     production: false,
     appInfo: {
@@ -6,6 +6,7 @@ export const environment = {
         version: `${version}-dev`,
         year: '2025',
         platform: 'web',
+        screenSaverTO: 90000, // 1:30min
     },
     appContact: {
         developer: 'GAMARS',

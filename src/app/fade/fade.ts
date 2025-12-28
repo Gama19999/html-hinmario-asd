@@ -20,6 +20,6 @@ export class Fade implements OnInit {
 
   ngOnInit(): void {
     this.theme = this.configSrv.theme$.value;
-    setTimeout(() => this.router.navigate(['/lobby'], { replaceUrl: true }), 2000);
+    setTimeout(() => this.router.navigate(['/lobby'], { replaceUrl: true }), 3000);
   }
 }

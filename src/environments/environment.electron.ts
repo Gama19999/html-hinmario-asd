@@ -1,4 +1,4 @@
-const version = '3.0.0';
+const version = '3.1.0';
 export const environment = {
     production: true,
     appInfo: {
@@ -6,6 +6,7 @@ export const environment = {
         version: `${version}-ele`,
         year: '2025',
         platform: 'electron',
+        screenSaverTO: 90000, // 1:30min
     },
     appContact: {
         developer: 'GAMARS',

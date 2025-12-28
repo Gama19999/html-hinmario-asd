@@ -26,6 +26,9 @@
     font-style: italic;
     color: var(--primary);
 }
+@media screen and (max-width: 1400px) { /***** MEDIUM SCREEN VIEW *****/
+    .logo { scale: 0.9; }
+}
 @keyframes appear {
     0% {
         transform: translateY(25%);

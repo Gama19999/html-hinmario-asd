@@ -31,3 +31,7 @@
     max-height: 300px;
     overflow-y: auto;
 }
+@media screen and (max-width: 1400px) { /***** MEDIUM SCREEN VIEW *****/
+    .central-btn { scale: 0.85; }
+    .under-scaled { scale: 0.5; }
+}

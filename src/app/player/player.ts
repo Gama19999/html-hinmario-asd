@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 
 import { ConfigService } from '../shared/services/config.service';
 import { PlaylistService } from '../shared/services/playlist.service';
@@ -11,11 +11,12 @@ import { BtnMute } from '../shared/svg/btns/btn-mute';
 import { BtnBack } from '../shared/svg/btns/btn-back';
 import { Modal } from '../shared/component/modal/modal';
 import { Result } from '../lobby/result/result';
+import { Screensaver } from '../shared/component/screensaver/screensaver';
 import { MediaState, Theme } from '../shared/util/app.types';
 
 @Component({
   selector: 'app-player',
-  imports: [BtnState, BtnMute, BtnBack, Modal, Result, NgClass, AsyncPipe],
+  imports: [BtnState, BtnMute, BtnBack, Modal, Result, Screensaver, NgClass, AsyncPipe],
   templateUrl: './player.html',
   styleUrl: './player.css',
 })
@@ -27,12 +28,14 @@ export class Player implements OnInit, AfterViewInit, OnDestroy {
   state: MediaState = 'playing';
   mute: boolean = false;
   playlist$: BehaviorSubject<string[]>;
+  screenSaver$: Subject<boolean>;
   
   @ViewChild('controls') controls!: ElementRef<HTMLElement>;
   @ViewChild('videoPlayer') videoPlayer!: ElementRef<HTMLVideoElement>;
 
   constructor(private configSrv: ConfigService, private playSrv: PlaylistService, private titleSrv: Title, private router: Router) {
     this.playlist$ = playSrv.playlist;
+    this.screenSaver$ = configSrv.screenSaver$;
   }
 
   ngOnInit(): void {
@@ -57,7 +60,15 @@ export class Player implements OnInit, AfterViewInit, OnDestroy {
     this.configSrv.playThrough$.value ? this.videoPlayer.nativeElement.play() : this.videoPlayer.nativeElement.pause();
   }
 
-  updateState() { this.state = this.videoPlayer.nativeElement.paused ? 'paused' : 'playing'; }
+  updateState() {
+    this.state = this.videoPlayer.nativeElement.paused ? 'paused' : 'playing';
+    this.callScreenSaver();
+  }
+
+  private callScreenSaver() { 
+    if (this.state === 'paused') this.configSrv.scheduleScreenSaver();
+    else this.configSrv.clearScreenSaver();
+  }
 
   controlsListener(evt: KeyboardEvent) {
     switch (evt.code) {
@@ -78,6 +89,13 @@ export class Player implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goLobby() { this.router.navigate(['/lobby'], { replaceUrl: true }); }
+
+  @HostListener('mousemove')
+  clearScreenSaver() {
+    this.configSrv.clearScreenSaver();
+    this.controls.nativeElement.focus();
+    this.callScreenSaver();
+  }
 
   ngOnDestroy(): void {
     this.videoPlayer.nativeElement.pause();

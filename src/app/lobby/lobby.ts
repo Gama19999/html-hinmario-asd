@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AsyncPipe, NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { ConfigService } from '../shared/services/config.service';
@@ -11,11 +12,12 @@ import { BtnConfig } from '../shared/svg/btns/btn-config';
 import { Modal } from '../shared/component/modal/modal';
 import { Logo } from '../shared/svg/logo/logo';
 import { Result } from './result/result';
+import { Screensaver } from '../shared/component/screensaver/screensaver';
 import { FullScreenEvt, Theme } from '../shared/util/app.types';
 
 @Component({
   selector: 'app-lobby',
-  imports: [BtnConfig, Modal, Logo, NgClass],
+  imports: [BtnConfig, Modal, Logo, Screensaver, NgClass, FormsModule, AsyncPipe],
   templateUrl: './lobby.html',
   styleUrl: './lobby.css',
 })
@@ -24,10 +26,14 @@ export class Lobby implements OnInit, AfterViewInit, OnDestroy {
   theme: Theme = 'light';
   playThough: boolean = true;
   fullscreen!: FullScreenEvt;
+  displayCanSleep!: boolean;
+  churchName!: string;
   appInfo = environment.appInfo;
   appContact = environment.appContact;
   enablePlaylistBtns: boolean = false;
   settingsHidden: boolean = true;
+  screenSaverEnabled!: boolean;
+  screenSaver$: Subject<boolean>;
 
   @ViewChild('searchField') searchField!: ElementRef<HTMLInputElement>;
   @ViewChild('foundList') foundList!: ElementRef;
@@ -35,13 +41,19 @@ export class Lobby implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('queueEl') queueEl!: ElementRef<HTMLElement>;
   @ViewChild('queue', { read: ViewContainerRef }) queue!: ViewContainerRef;
 
-  constructor(private configSrv: ConfigService, private lookupSrv: LookupService, private playSrv: PlaylistService, private router: Router) { }
+  constructor(private configSrv: ConfigService, private lookupSrv: LookupService, private playSrv: PlaylistService, private router: Router) {
+    this.screenSaver$ = configSrv.screenSaver$;
+  }
 
   ngOnInit(): void {
     this.subs.push(this.configSrv.theme$.subscribe(val => this.theme = val));
     this.subs.push(this.configSrv.playThrough$.subscribe(val => this.playThough = val));
     this.subs.push(this.configSrv.fullscreen$.subscribe(val => this.fullscreen = val));
+    this.subs.push(this.configSrv.displayCanSleep$.subscribe(val => this.displayCanSleep = val));
+    this.subs.push(this.configSrv.churchName$.subscribe(val => this.churchName = val));
+    this.subs.push(this.configSrv.screenSaverFeature$.subscribe(val => this.screenSaverEnabled = val));
     this.enablePlaylistBtns = this.playSrv.playlist.value.length > 0;
+    this.configSrv.scheduleScreenSaver();
   }
 
   ngAfterViewInit(): void {
@@ -119,6 +131,7 @@ export class Lobby implements OnInit, AfterViewInit, OnDestroy {
   closeSettings() {
     this.settingsHidden = true;
     this.searchField.nativeElement.focus();
+    this.configSrv.updateChurchName(this.churchName);
   }
 
   toggleTheme() { this.configSrv.toggleDarkTheme(); }
@@ -128,6 +141,18 @@ export class Lobby implements OnInit, AfterViewInit, OnDestroy {
   toggleFullScreen() {
     this.configSrv.toggleFullScreen('app');
     this.closeSettings();
+  }
+
+  toggleScreenSaverFeature() { this.configSrv.toggleScreenSaverFeature(); }
+
+  toggleDisplayCanSleep() { this.configSrv.toggleDisplayCanSleep(); }
+
+  @HostListener('mousemove')
+  @HostListener('input')
+  clearScreenSaver() {
+    this.configSrv.clearScreenSaver();
+    if (this.settingsHidden) this.searchField.nativeElement.focus();
+    this.configSrv.scheduleScreenSaver();
   }
 
   ngOnDestroy(): void {

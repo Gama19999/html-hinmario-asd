@@ -8,5 +8,5 @@ export const routes: Routes = [
     { path: 'lobby', component: Lobby, title: 'HASD | Buscar' },
     { path: 'player', loadComponent: () => import('./player/player').then(m => m.Player), title: 'HASD | {}' },
     { path: '', redirectTo: 'fade', pathMatch: 'full' },
-    { path: '**', redirectTo: 'lobby' }
+    { path: '**', redirectTo: 'fade' }
 ];

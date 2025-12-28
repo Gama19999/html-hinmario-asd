@@ -55,6 +55,11 @@ app-btn-state.small, app-btn-mute.small, app-btn-back.small {
   width: 60px;
   height: 60px;
 }
+app-screensaver {
+  position: absolute;
+  top: 0;
+  z-index: 200;
+}
 
 /***** CLASSES *****/
 .pointer { cursor: pointer; }
@@ -70,6 +75,7 @@ app-btn-state.small, app-btn-mute.small, app-btn-back.small {
 }
 .modal-grid { gap: 1rem 0; }
 .modal-title { border-bottom: 2px solid var(--onTertiary); }
+/* .screensaver --> class in html file */
 
 @media screen and (max-width: 1024px) { /***** SMALL SCREEN VIEW *****/
   
@@ -120,10 +126,7 @@ app-btn-state.small, app-btn-mute.small, app-btn-back.small {
 .r13 { grid-row: 1 / 4; }
 
 /***** FONTS *****/
-@font-face {
-  font-family: "NationalPark";
-  src: url("assets/fonts/NationalPark.ttf") format("truetype");
-}
+/* @font-face --> NationalPark in html file */
 .ft, .fm, .fn, .fs { font-family: "NationalPark", sans-serif; }
 .ft { font-size: 5rem; }
 .fm { font-size: 3rem; }

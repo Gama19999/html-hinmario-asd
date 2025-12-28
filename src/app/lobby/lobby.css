@@ -84,5 +84,18 @@
     box-shadow: 4px 4px 2px 0 var(--shadow-dim);
 }
 .toggle:active { outline: none; }
+.church { gap: 0 1rem; }
+.church .field {
+    color: var(--onTertiary);
+    max-width: 550px;
+}
 a { color: inherit; }
 a:hover, a:active { color: var(--secondary); }
+@media screen and (max-width: 1400px) { /***** MEDIUM SCREEN VIEW *****/
+    .logo {
+        left: 21%;
+        scale: 0.25;
+    }
+    .finder { grid-template-rows: 20% 1fr; }
+    .found { max-height: 360px; }
+}
