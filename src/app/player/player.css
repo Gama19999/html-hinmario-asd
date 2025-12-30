@@ -5,7 +5,7 @@
     top: 0;
 }
 .video {
-    object-fit: cover;
+    object-fit: fill;
     box-shadow: 0 0 70px 5px black;
 }
 .controls {
