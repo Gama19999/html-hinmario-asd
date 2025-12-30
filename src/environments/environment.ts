@@ -1,4 +1,4 @@
-const version = '3.1.1';
+const version = '3.1.2';
 export const environment = {
     production: false,
     appInfo: {

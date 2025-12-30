@@ -612,5 +612,4 @@ export const index: { [key: string]: string } = {
 '611':'OH, JUVENTUD DEL REY',
 '612':'JESÚS TE NECESITA HOY',
 '613':'HOY NOS TOCA TRABAJAR',
-'614':'AMENES'
 };
