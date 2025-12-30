@@ -21,4 +21,24 @@ declare global {
             allowDisplaySleep: (blockerId: number) => Promise<boolean>,
         };
     }
+    
+    // If `enable-experimental-web-platform-features` chromium flag is enabled
+
+    interface HTMLMediaElement {
+        audioTracks?: AudioTrackList;
+    }
+    interface AudioTrackList {
+        length: number;
+        [index: number]: AudioTrack;
+        getTrackById(id: string): AudioTrack | null;
+        onaddtrack: ((this: AudioTrackList, ev: Event) => any) | null;
+        onremovetrack: ((this: AudioTrackList, ev: Event) => any) | null;
+    }
+    interface AudioTrack {
+        id: string;
+        kind: string;
+        label: string;
+        language: string;
+        enabled: boolean;
+    }
 }

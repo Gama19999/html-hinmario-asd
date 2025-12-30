@@ -9,14 +9,16 @@ import { PlaylistService } from '../shared/services/playlist.service';
 import { BtnState } from '../shared/svg/btns/btn-state';
 import { BtnMute } from '../shared/svg/btns/btn-mute';
 import { BtnBack } from '../shared/svg/btns/btn-back';
+import { BtnTrack } from '../shared/svg/btns/btn-track';
 import { Modal } from '../shared/component/modal/modal';
 import { Result } from '../lobby/result/result';
 import { Screensaver } from '../shared/component/screensaver/screensaver';
-import { MediaState, Theme } from '../shared/util/app.types';
+import { MediaState, Theme, TrackMode } from '../shared/util/app.types';
+import * as mediaExt from '../shared/util/app.media-ext';
 
 @Component({
   selector: 'app-player',
-  imports: [BtnState, BtnMute, BtnBack, Modal, Result, Screensaver, NgClass, AsyncPipe],
+  imports: [BtnState, BtnMute, BtnBack, BtnTrack, Modal, Result, Screensaver, NgClass, AsyncPipe],
   templateUrl: './player.html',
   styleUrl: './player.css',
 })
@@ -26,6 +28,7 @@ export class Player implements OnInit, AfterViewInit, OnDestroy {
   playingNum: any;
   videoFile: any;
   state: MediaState = 'playing';
+  trackMode: TrackMode = 'choir';
   mute: boolean = false;
   playlist$: BehaviorSubject<string[]>;
   screenSaver$: Subject<boolean>;
@@ -75,6 +78,13 @@ export class Player implements OnInit, AfterViewInit, OnDestroy {
       case 'KeyM': this.toggleMute(); return;
       case 'Space': this.toggleState(); return;
       case 'Backspace': this.goLobby(); return;
+    }
+  }
+
+  toggleTrack() {
+    if (mediaExt.videoHasMultipleTracks(this.videoPlayer.nativeElement)) {
+      this.trackMode = this.trackMode === 'choir' ? 'music' : 'choir';
+      mediaExt.enableTrack(this.videoPlayer.nativeElement, this.trackMode === 'choir' ? 'spa' : 'eng');
     }
   }
 

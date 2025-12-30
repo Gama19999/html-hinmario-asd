@@ -58,10 +58,11 @@
                 Iglesia <input type="search" id="church" class="field fn bold" autocomplete="off" [(ngModel)]="churchName">
             </label>
             <div style="height: 3rem;"></div>
-            <span class="fs">Aplicaci&oacute;n desarrollada por {{ appContact.developer }}</span>
+            <span class="fs">Autor&iacute;a de los recursos l&iacute;ricos y musicales perteneciente a sus creadores</span>
             <span class="fs">App disponible en <a [href]="appContact.siteUrl" target="_blank">
                 {{ appContact.company }}</a> o descarga desde <a [href]="appContact.githubUrl"
                 target="_blank">GitHub</a></span>
+            <span class="fs">App desarrollada por {{ appContact.developer }}</span>
             <span class="fs">{{ appInfo.name }} - {{ appContact.company }} - {{ appInfo.year }}</span>
         </div>
     </app-modal>

@@ -51,7 +51,7 @@ app-result:focus {
   color: var(--secondary) !important;
   text-decoration: underline;
 }
-app-btn-state.small, app-btn-mute.small, app-btn-back.small {
+app-btn-state.small, app-btn-mute.small, app-btn-back.small, app-btn-track.small {
   width: 60px;
   height: 60px;
 }

@@ -1,10 +1,10 @@
-const version = '3.1.0';
+const version = '3.1.1';
 export const environment = {
     production: false,
     appInfo: {
         name: 'Himnario ASD',
         version: `${version}-dev`,
-        year: '2025',
+        year: '2026',
         platform: 'web',
         screenSaverTO: 90000, // 1:30min
     },

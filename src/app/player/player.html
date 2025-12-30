@@ -1,11 +1,14 @@
 <div class="full {{ theme }} pattern-{{ theme }}"></div>
 @if (screenSaver$ | async) { <app-screensaver class="full {{ theme }}"></app-screensaver> }
 <section class="player full grid items-center bg {{ theme }}">
-    <video #videoPlayer autoplay class="video c2 r13" (pause)="updateState()" (play)="updateState()" (ended)="playNext()">
+    <video #videoPlayer autoplay class="video full c2 r13" (pause)="updateState()" (play)="updateState()" (ended)="playNext()">
         <source [src]="videoFile" type="video/mp4">
         Video not supported.
     </video>
     <div class="controls c13 r3 flex flex-center" tabindex="-1" #controls (keyup)="controlsListener($event)">
+        <div class="btn flex flex-center under-scaled btn-left pointer">
+            <app-btn-track [mode]="trackMode" class="small" (click)="toggleTrack()"></app-btn-track>
+        </div>
         <div class="btn flex flex-center under-scaled pointer" (click)="toggleMute()">
             <app-btn-mute [mute]="mute" class="small"></app-btn-mute>
         </div>
