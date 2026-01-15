@@ -48,6 +48,8 @@
     gap: 1rem 0;
     color: var(--outline);
     overflow-y: auto;
+    scrollbar-width: auto;
+    scrollbar-color: var(--matches-scrollbar) transparent;
 }
 .found:has(app-result) {
     padding: 1rem 0;

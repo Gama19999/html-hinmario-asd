@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgClass } from '@angular/common';
 
 import { PlaylistService } from '../../shared/services/playlist.service';
@@ -14,15 +15,21 @@ export class Result {
   @Input('data') data!: Hymn;
   @Input('type') type!: ResultType;
 
-  constructor(private playSrv: PlaylistService) {}
+  constructor(private playSrv: PlaylistService, private router: Router) {}
 
-  remove(evt: Event) {
+  startPlayWith(evt: Event) {
     evt.preventDefault();
-    this.playSrv.removeFromPlaylist(this.data.number);
+    this.playSrv.startWith(this.data.number);
+    this.router.navigate(['/player']);
   }
 
   add(evt: Event) {
     evt.preventDefault();
     this.playSrv.addToPlaylist(this.data.number);
+  }
+
+  remove(evt: Event) {
+    evt.preventDefault();
+    this.playSrv.removeFromPlaylist(this.data.number);
   }
 }

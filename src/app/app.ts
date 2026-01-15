@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
 
@@ -20,16 +20,7 @@ export class App implements OnInit {
         httpEquiv: 'Content-Security-Policy',
         content: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self';"
       });
+      this.configSrv.getVideoSourcesPath();
     }
-  }
-
-  @HostListener('window:keyup', ['$event'])
-  onF11FullScreen(evt: KeyboardEvent) {
-    if (evt.code === 'F11') this.configSrv.toggleFullScreen('f11');
-  }
-
-  @HostListener('window:resize')
-  onExitF11FullScreen() {
-    if (this.configSrv.fullscreen$.value.src === 'f11' && this.configSrv.fullscreen$.value.state) this.configSrv.toggleFullScreen('f11');
   }
 }

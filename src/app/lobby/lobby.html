@@ -1,5 +1,4 @@
 <div class="full {{ theme }} pattern-{{ theme }}"></div>
-@if (screenSaver$ | async) { <app-screensaver class="full {{ theme }}"></app-screensaver> }
 <section class="lobby full grid items-center {{ theme }}">
     <span class="app-name ft bold c2 r1">{{ appInfo.name }}</span>
     <app-logo class="logo c2 r1"></app-logo>
@@ -33,29 +32,6 @@
             <label for="through">
                 Reproducci&oacute;n autom&aacute;tica <input type="button" id="through" class="toggle pointer fn bold"
                     [value]="playThough ? 'activada' : 'desactivada'" (click)="togglePlayThrough()">
-            </label>
-            <label for="fullscreen">
-                @if (fullscreen.src === 'f11') { F11 para entrar/salir de pantalla completa }
-                @else {
-                    <input type="button" id="fullscreen" class="toggle pointer fn bold"
-                        [value]="fullscreen.state ? 'Desactivar' : 'Activar'" (click)="toggleFullScreen()"> pantalla completa
-                }
-            </label>
-            <label for="screensaver">
-                Protector de pantalla
-                <input type="button" id="screensaver" class="toggle pointer fn bold"
-                    [value]="screenSaverEnabled ? 'activado' : 'desactivado'" (click)="toggleScreenSaverFeature()">
-            </label>
-            @if (appInfo.platform === 'electron') {
-                <label for="display-sleep">
-                    <input type="button" id="display-sleep" class="toggle pointer fn bold"
-                        [value]="displayCanSleep ? 'Permitiendo' : 'Preveniendo'" (click)="toggleDisplayCanSleep()"> que la pantalla
-                        se apague 
-                </label>
-            }
-            <div style="height: 1rem;"></div>
-            <label for="church" class="church flex flex-center full-w">
-                Iglesia <input type="search" id="church" class="field fn bold" autocomplete="off" [(ngModel)]="churchName">
             </label>
             <div style="height: 3rem;"></div>
             <span class="fs">Autor&iacute;a de los recursos l&iacute;ricos y musicales perteneciente a sus creadores</span>

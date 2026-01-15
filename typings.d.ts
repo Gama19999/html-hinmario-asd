@@ -4,24 +4,13 @@ declare global {
     interface Window {
         electron: {
             /**
-             * Toggles fullscreen mode
-             * @param flag Boolean indicating whether to go fullscreen
+             * Resolves electron resources folder path
+             * @returns Returns electron video sources path
              */
-            setFullScreenAs: (flag: boolean) => void,
-            /**
-             * Makes the app to keep the screen always on
-             * @returns Promise\<number> with the blocker ID. Save it to turn off this function
-             */
-            preventDisplaySleep: () => Promise<number>,
-            /**
-             * Makes the app restore the screen power configuration
-             * @param blockerId Number with the blocker ID previously assigned
-             * @returns Promise\<boolean> with whether the specified powerSaveBlocker has been stopped
-             */
-            allowDisplaySleep: (blockerId: number) => Promise<boolean>,
+            getVideoSourcesPath: () => Promise<string>,
         };
     }
-    
+
     // If `enable-experimental-web-platform-features` chromium flag is enabled
 
     interface HTMLMediaElement {

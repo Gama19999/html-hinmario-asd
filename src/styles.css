@@ -28,6 +28,7 @@ html, body { height: 100%; }
   --backdrop-modal: rgba(255, 255, 255, 0.5);
   --pattern-c1: #91919144;
   --pattern-c2: #ebebeb99;
+  --matches-scrollbar: rgba(0,0,0,0.4);
 }
 .dark {
   --background: #161616FF;
@@ -40,6 +41,7 @@ html, body { height: 100%; }
   --backdrop-modal: rgba(0, 0, 0, 0.5);
   --pattern-c1: #2e2e2e;
   --pattern-c2: #161616;
+  --matches-scrollbar: rgba(255,255,255,0.5);
 }
 
 /***** COMPONENTS *****/
@@ -47,18 +49,13 @@ app-result {
   outline: none;
   border: none;
 }
-app-result:focus {
+app-result:focus, app-result:hover {
   color: var(--secondary) !important;
   text-decoration: underline;
 }
 app-btn-state.small, app-btn-mute.small, app-btn-back.small, app-btn-track.small {
   width: 60px;
   height: 60px;
-}
-app-screensaver {
-  position: absolute;
-  top: 0;
-  z-index: 200;
 }
 
 /***** CLASSES *****/
@@ -75,7 +72,6 @@ app-screensaver {
 }
 .modal-grid { gap: 1rem 0; }
 .modal-title { border-bottom: 2px solid var(--onTertiary); }
-/* .screensaver --> class in html file */
 
 @media screen and (max-width: 1024px) { /***** SMALL SCREEN VIEW *****/
   

@@ -1,5 +1,4 @@
 <div class="full {{ theme }} pattern-{{ theme }}"></div>
-@if (screenSaver$ | async) { <app-screensaver class="full {{ theme }}"></app-screensaver> }
 <section class="player full grid items-center bg {{ theme }}">
     <video #videoPlayer autoplay class="video full c2 r13" (pause)="updateState()" (play)="updateState()" (ended)="playNext()">
         <source [src]="videoFile" type="video/mp4">
@@ -21,7 +20,7 @@
     </div>
     <app-modal width="25%" height="fit-content" class="modal" [ngClass]="{'hidden': state === 'playing'}" (close)="toggleState()">
         <div class="modal-grid grid items-center">
-            <span class="fn bold">PAUSA</span>
+            <span class="fn bold">{{ playingNum }} | PAUSA</span>
             <span class="modal-title fn bold">Siguiente a eschuchar</span>
             <div class="modal-playlist fn bold">
                 @for (item of playlist$ | async; track $index) {

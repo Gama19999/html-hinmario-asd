@@ -2,8 +2,9 @@
     <span>{{ data.number }}</span>
     @if (type === 'found') {
         <span>{{ data.title }}</span>
-        <span class="pointer" (click)="add($event)">&#10010;</span>
-    } @else {
-        <span class="pointer" (click)="remove($event)">&#10008;</span>
+        <span class="pointer" title="iniciar" (click)="startPlayWith($event)">&#9658;</span>
+        <span class="pointer" title="agregar a playlist" (click)="add($event)">&#10010;</span>
+    } @else { <!-- playlist -->
+        <span class="pointer" title="Quitar de la playlist" (click)="remove($event)">&#10008;</span>
     }    
 </div>

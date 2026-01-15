@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { Hymn } from '../util/app.types';
 import { index } from '../util/app.index';
@@ -6,10 +6,9 @@ import { index } from '../util/app.index';
 @Injectable({ providedIn: 'root' })
 export class LookupService {
 
-  constructor() {}
+  constructor() { }
 
   search(val: string): Hymn[] {
-    if (!val) return []; // Empty input
     const num = this.sanitizeNumber(val);
     if (num) return this.searchByNumber(num);
     else return this.searchByText(val);
@@ -62,10 +61,13 @@ export class LookupService {
    */
   private searchByText(str: string): Hymn[] {
     const found: Hymn[] = [];
-    str = str.toUpperCase();
+    const keywords = str.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    if (keywords.startsWith('+'))
+      return Object.entries(index).map(([k, v]) => { return { number: k, title: v } }).sort((a, b) => +a.number - +b.number)
     for (const [k, v] of Object.entries(index))
-      if (v.includes(str)) found.push({ number: k, title: v });
-    found.sort((a, b) => +a.number < +b.number ? -1 : +a.number > +b.number ? 1 : 0);
+      if (v.normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(keywords))
+        found.push({ number: k, title: v });
+    found.sort((a, b) => +a.number - +b.number);
     return found;
   }
 }
