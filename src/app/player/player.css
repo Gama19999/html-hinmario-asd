@@ -1,0 +1,47 @@
+.player {
+    grid-template-columns: 5% 90% 5%;
+    grid-template-rows: 100%;
+    backdrop-filter: blur(1px) contrast(0.6);
+}
+.current {
+    position: absolute;
+    right: calc(50% - 8% / 2);
+    top: 1%;
+    width: 10%;
+    background-color: var(--alpha);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity ease-in-out 100ms;
+}
+.current:has(~ .control-list:hover) {
+    opacity: 1;
+}
+.video {
+    object-fit: fill;
+    box-shadow: var(--media-shadow);
+}
+.ghost {
+    position: absolute;
+    z-index: 2; /* app-player (replay forward ghost) */
+    font-size: 5rem !important; /* Preferred icon size */
+    opacity: 0;
+    transition: opacity 80ms ease-in-out;
+}
+.real { opacity: 0.65; }
+.control-list {
+    position: relative;
+    bottom: 1%;
+    gap: 0 1rem;
+    align-self: self-end;
+    background-color: var(--alpha);
+    border-radius: 10px;
+    padding: 5px;
+}
+.msymbol {
+    font-size: 2.8rem; /* Preferred icon size */
+    background-color: var(--alpha);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+}

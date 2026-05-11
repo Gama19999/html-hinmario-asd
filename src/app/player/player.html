@@ -1,0 +1,26 @@
+<section class="player full grid items-center">
+    <span class="current npark bold italic">{{ str.current(numeral()) }}</span>
+    <video class="video full c2 r1" #videoPlayer (play)="playing = true" (pause)="playing = false"
+        (ended)="onVideoEnd()" (contextmenu)="$event.preventDefault()" (seeked)="seekDir = undefined">
+        video not supported
+    </video>
+    <span class="replay-10 msymbol ghost" [style.left.%]="7" [class.real]="seekDir === 'replay'">replay_10</span>
+    <span class="forward-10 msymbol ghost" [style.right.%]="7" [class.real]="seekDir === 'forward'">forward_10</span>
+    <div class="control-list flex flex-center c2 r1">
+        <span class="mode msymbol pointer" [title]="str.labels.mode(audioMode)" (click)="toggleMode()">
+            {{ audioMode === 'choir' ? str.buttons.choir : str.buttons.track }}
+        </span>
+        <span class="mute msymbol pointer" [title]="str.labels.mute(muted)" (click)="toggleMute()">
+            {{ muted ? str.buttons.mute : str.buttons.sound }}
+        </span>
+        <span class="state msymbol pointer" [title]="str.labels.state(playing)" (click)="toggleState()">
+            {{ playing ? str.buttons.pause : str.buttons.play }}
+        </span>
+        <span class="play-through msymbol pointer" [title]="str.labels.playThrough(playThrough)" (click)="togglePlayThrough() ">
+            {{ playThrough ? str.buttons.autoplay : str.buttons.autostop }}
+        </span>
+        <span class="return msymbol pointer" [title]="str.labels.return" (click)="exitPlayer()">
+            {{ str.buttons.return }}
+        </span>
+    </div>
+</section>

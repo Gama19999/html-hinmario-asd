@@ -1,0 +1,9 @@
+<section class="reader full grid items-center">
+    <span class="current npark bold italic">{{ str.current(numeral()) }}</span>
+    <img #imageViewer class="image c1 r1" />
+    <div class="control-list flex flex-center c1 r1">
+        <span class="prev msymbol pointer" [title]="str.labels.prev" (click)="prev()">{{ str.buttons.prev }}</span>
+        <span class="next msymbol pointer" [title]="str.labels.next" (click)="next()">{{ str.buttons.next }}</span>
+        <span class="return msymbol pointer" [title]="str.labels.return" (click)="exitReader()">{{ str.buttons.return }}</span>
+    </div>
+</section>

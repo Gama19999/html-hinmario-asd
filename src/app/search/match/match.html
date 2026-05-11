@@ -1,0 +1,13 @@
+<div class="match grid items-center full-w npark bold sn" [class.playlist-item]="inPlaylist()">
+    @if (inPlaylist()) {
+        <span class="match-control pointer" [title]="str.remove" (click)="removeFromPlaylist()">&#10006;</span>
+        <span class="hymn-numeral">{{ hymn().numeral }}</span>
+        <span class="match-control pointer" [title]="str.start" (click)="startPlayback()">&#9658;</span>
+    } @else {
+        <span class="hymn-numeral">{{ hymn().numeral }}</span>
+        <span class="hymn-title">{{ hymn().title }}</span>
+        <span class="match-control pointer" [title]="str.start" (click)="startPlayback()">&#9658;</span>
+        <span class="match-control pointer" [title]="str.lyrics" (click)="openLyrics()">&#10097;</span>
+        <span class="match-control pointer" [title]="str.addToPlaylist" (click)="addToPlaylist()">&#10010;</span>
+    }    
+</div>

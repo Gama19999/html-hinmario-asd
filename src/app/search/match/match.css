@@ -1,0 +1,8 @@
+.match { 
+    grid-template-columns: 10% 1fr repeat(3, 5%) 2%;
+}
+.playlist-item { 
+    grid-template-columns: 20% 1fr 20%;
+    gap: 0 0.5rem;
+}
+.hymn-title { letter-spacing: 2px; }

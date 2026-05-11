@@ -1,0 +1,11 @@
+<aside class="playlist grid items-center">
+    <span class="header button npark bold sn pointer" (click)="togglePlaylistDisplay()">{{ str.header }}</span>
+    @if ((playlist$ | async)?.length && (playlistShown$ | async)) {
+        <span class="button npark bold sn pointer" (click)="clearPlaylist()">{{ str.clear }}</span>
+        <div class="hymn-list grid items-center">
+            @for (item of (playlist$ | async); track $index) {
+                <app-match [hymn]="item" [inPlaylist]="true"></app-match>
+            }
+        </div>
+    }
+</aside>

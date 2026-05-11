@@ -1,0 +1,38 @@
+<section class="settings grid items-center full">
+    <span class="close-mark msymbol pointer c1 r1" (click)="closeSettings()">close</span>
+    <span class="title npark bold sn c1 r1">{{ str.title }}</span>
+    <div class="features flex flex-center full c1 r2">
+        <label for="through" class="through npark full-w">
+            {{ str.features.through.label }}
+            <input type="button" id="through" class="npark bold pointer si"
+                [value]="(playThroughOn$ | async) ? str.features.through.on : str.features.through.off"
+                (click)="togglePlayThrough()">
+        </label>
+        @if (displayCanSleep$) {
+            <label for="display" class="display npark full-w">
+                {{ str.features.display.label }}
+                <input type="button" id="display" class="npark bold pointer si"
+                    [value]="str.features.display.value(displayCanSleep$ | async)" (click)="toggleDisplaySleep()">
+            </label>
+        }
+        <span class="npark italic ss">{{ str.rights }}</span>
+    </div>
+    <div class="footer flex flex-center c1 r3">
+        <span class="app-name full-w npark bold">{{ appInfo.name }} | {{ appInfo.year }}</span>
+        <span class="app-developer full-w npark ss">
+            {{ str.app.developer }}&nbsp;
+            <a [href]="appContact.contact" target="_blank" class="app-link">{{ appContact.developer }}</a>
+        </span>
+        <span class="app-windows full-w npark ss">
+            {{ str.app.windows }}&nbsp;
+            <a [href]="appContact.electronGit" target="_blank" class="app-link">GitHub</a>&nbsp; o en&nbsp;
+            <a [href]="appContact.siteUrl" target="_blank" class="app-link">{{ appContact.company }}</a>
+        </span>
+        <span class="app-android full-w npark ss">
+            {{ str.app.android }}&nbsp;
+            <a [href]="appContact.androidGit" target="_blank" class="app-link">GitHub</a>&nbsp; o en&nbsp;
+            <a [href]="appContact.siteUrl" target="_blank" class="app-link">{{ appContact.company }}</a>
+        </span>
+        <span class="app-version npark italic ss">&mdash;&nbsp; {{ appInfo.version }} &nbsp;&mdash;</span>
+    </div>
+</section>

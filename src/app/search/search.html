@@ -1,0 +1,13 @@
+<section class="search full grid items-center">
+    <span class="app-name npark bold tshadow st c2 r1">{{ appInfo.name }}</span>
+    <app-logo class="logo c2 r1"></app-logo>
+    <div class="search-controls grid full c2 r2">
+        <input type="search" id="search-field" class="field npark bold sm" #searchField
+            [placeholder]="searchStr.placeholder" autocomplete="off" autofocus
+            (input)="search()" (keyup.arrowdown)="focusMatches()">
+        <div class="matches flex" #matchesDiv (keyup)="onMatchesKey($event)">
+            <ng-container #ngContainer></ng-container>
+        </div>
+    </div>
+    <span class="btn-config msymbol pointer" (click)="showSettings()">{{ settingsStr.button }}</span>
+</section>
